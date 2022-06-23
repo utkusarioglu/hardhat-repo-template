@@ -49,9 +49,7 @@ export async function getSigner(
  * @param obj js object with sol struct keys and values.
  * @returns a tuple with an array and a solc struct array
  */
-export function asSolidityStruct<
-  G extends [Record<string, unknown>, unknown[]]
->(
+export function asEvmStruct<G extends [Record<string, unknown>, unknown[]]>(
   obj: G[0]
 ): {
   struct: G[0] & G[1];
@@ -78,9 +76,18 @@ export const localAccounts = Object.entries(
 ).map(([name, values], index, list) => ({
   index,
   name,
+  describeMessage: `As "${name}" at ${values.address} (${index})`,
   ...values,
   list: list.map(([_, account]) => account),
 }));
+
+/**
+ * Chooses either the deployer account or all accounts depending on
+ * the setting of the `features.multiUserTesting` config value.
+ */
+export const testAccounts = config.get<boolean>("features.multiUserTesting")
+  ? localAccounts
+  : localAccounts.slice(0, 1);
 
 /**
  * Handles common test preparation tasks such as creating a signer

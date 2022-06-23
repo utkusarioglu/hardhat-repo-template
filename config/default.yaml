@@ -2,6 +2,7 @@ features:
   gasReporter:
     enabled: false
     token: eth
+  multiUserTesting: false
 
 accounts:
   goerli:
