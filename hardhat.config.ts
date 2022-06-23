@@ -102,8 +102,8 @@ const hardhatConfig = {
 
   ...(config.has("apiKeys.coinMarketCap") && {
     gasReporter: {
-      token: "matic",
-      enabled: true,
+      token: config.get<string>("features.gasReporter.token"),
+      enabled: config.get<boolean>("features.gasReporter.enabled"),
       coinmarketcap: config.get("apiKeys.coinMarketCap"),
       currency: "USD",
     },

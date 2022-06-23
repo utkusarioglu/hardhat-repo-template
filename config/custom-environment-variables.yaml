@@ -14,7 +14,7 @@ accounts:
       privateKey: GOERLI_DEPLOYER_PK
 
 apiKeys:
-  coinMarketCap-disabled: COINMARKETCAP_API_KEY
+  coinMarketCap: COINMARKETCAP_API_KEY
   infura: INFURA_API_KEY
   etherscan: ETHERSCAN_API_KEY
   alchemy:

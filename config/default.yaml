@@ -1,5 +1,7 @@
-deployArgs:
-  uri: "http://localhost/{id}.json"
+features:
+  gasReporter:
+    enabled: false
+    token: eth
 
 accounts:
   goerli:
