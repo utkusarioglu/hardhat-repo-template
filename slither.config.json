@@ -1,5 +1,5 @@
 {
-  "hardhat_artifacts_directory": "./lib/artifacts",
+  "hardhat_artifacts_directory": "./artifacts/hardhat",
   "filter_paths": "node_modules",
   "solc_remaps": [
     "@openzeppelin/=./node_modules/@openzeppelin/",

@@ -2,7 +2,7 @@
 
 source /opt/venv/slither/bin/activate
 
-ANALYSIS_FOLDER=./lib/echidna
+ANALYSIS_FOLDER=./artifacts/echidna
 CONTRACTS="Main"
 
 mkdir -p $ANALYSIS_FOLDER

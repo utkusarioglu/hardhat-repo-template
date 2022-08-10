@@ -16,8 +16,8 @@ main() {
     manticore --solc-standard-json solc.json $contract
   done
   # rm $TEMP_JSON
-  # mkdir -p lib/manticore
-  # mv mcore_* lib/manticore/
+  # mkdir -p artifacts/manticore
+  # mv mcore_* artifacts/manticore/
 }
 
 main

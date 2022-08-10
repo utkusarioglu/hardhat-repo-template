@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BIN_PATH=lib/solc
+BIN_PATH=artifacts/solc
 CONTRACT_FILE="Sll.sol"
 CONTRACT_NAME="Sll"
 

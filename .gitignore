@@ -5,6 +5,7 @@ node_modules
 cache
 /types
 /lib
+/artifacts
 crytic-export
 /ignore
 /deployments/localhost

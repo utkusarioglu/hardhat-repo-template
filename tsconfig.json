@@ -7,9 +7,9 @@
       "_services/*": ["src/services/*"],
       "_tasks/*": ["src/tasks/*"],
       "_types/*": ["src/types/*"],
-      "_typechain/*": ["lib/typechain/*"],
-      "_artifacts/*": ["lib/artifacts/*"],
-      "_deployments/*": ["lib/deployments/*"]
+      "_typechain/*": ["artifacts/typechain/*"],
+      "_artifacts/*": ["artifacts/hardhat/*"],
+      "_deployments/*": ["artifacts/deployments/*"]
     },
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

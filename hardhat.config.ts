@@ -29,12 +29,12 @@ const hardhatConfig = {
   paths: {
     sources: "./src/contracts",
     tests: "tests",
-    cache: "lib/cache",
-    artifacts: "lib/artifacts",
-    imports: "lib/imports",
+    cache: "artifacts/cache",
+    artifacts: "artifacts/hardhat",
+    imports: "artifacts/imports",
     deployments: "deployments",
-    deploy: "src/deploy",
-    newStorageLayoutPath: "lib/storage-layout",
+    deploy: "artifacts/deploy",
+    newStorageLayoutPath: "artifacts/storage-layout",
   },
   settings: {
     optimizer: {
@@ -88,7 +88,7 @@ const hardhatConfig = {
   namedAccounts: namedAccounts(),
 
   typechain: {
-    outDir: "./lib/typechain",
+    outDir: "./artifacts/typechain",
     target: "ethers-v5",
     alwaysGenerateOverloads: false,
   },

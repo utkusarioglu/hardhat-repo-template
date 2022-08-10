@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "types": "lib/typechain",
+  "types": "artifacts/typechain",
   "scripts": {
     "test": "hardhat test"
   },
