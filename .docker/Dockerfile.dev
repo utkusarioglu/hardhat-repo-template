@@ -58,7 +58,7 @@ RUN pip install -r requirements.slither.txt --no-input --no-cache-dir
 
 RUN cd $VIRTUAL_ENV_PATH_SLITHER/bin && \
   wget https://github.com/crytic/echidna/releases/download/v2.0.0/echidna-test-2.0.0-Ubuntu-18.04.tar.gz \
-    -O echidna.tar.gz \
+  -O echidna.tar.gz \
   && tar -xzf echidna.tar.gz \
   && rm echidna.tar.gz
 
@@ -82,4 +82,5 @@ RUN mkdir -p /home/hardhat/.config/matplotlib && \
   chown -R 1000:1000 /home/hardhat/.config/matplotlib 
 
 COPY .docker/.bashrc /home/hardhat/.bashrc
+COPY .docker/.inputrc /home/hardhat/.inputrc
 USER hardhat
