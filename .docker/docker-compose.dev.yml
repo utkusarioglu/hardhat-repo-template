@@ -2,6 +2,6 @@ version: "3.9"
 
 services:
   hardhat-repo-template:
-    image: utkusarioglu/ethereum-container-environment:1.0.0
+    image: utkusarioglu/ethereum-container-environment:1.0.1
     volumes:
       - ..:/utkusarioglu/templates/hardhat-repo-template
