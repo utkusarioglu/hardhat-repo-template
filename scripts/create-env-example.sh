@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Creates an "*.example" file for the given ".env" by stripping out
-# The values and the comments.
+# the values and the comments.
 
 find . -type f \( \( \
   -iname "*.env" \
