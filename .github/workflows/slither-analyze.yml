@@ -1,15 +1,21 @@
-name: Mythril
+name: Slither Analyze
 
 on:
+  push:
+    # branches:
+    #   - main
+    # paths:
+    #   - .github/workflows/slither-analyze.yml
+    #   - src/contracts/**
   workflow_dispatch:
-  workflow_call:
 
 jobs:
   run-slither-analysis:
-    name: Run Mythril analysis
+    name: Run Slither analysis
     runs-on: ubuntu-latest
     container:
-      image: utkusarioglu/ethereum-dev-environment:latest
+      image: utkusarioglu/ethereum-devcontainer:latest
+      options: --user=0:0
       env:
         COINMARKETCAP_API_KEY: ${{ secrets.COINMARKETCAP_API_KEY }}
         INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
@@ -23,10 +29,11 @@ jobs:
         LOCAL_USER_1_PK: ${{ secrets.LOCAL_USER_1_PK }}
         LOCAL_USER_2_PK: ${{ secrets.LOCAL_USER_2_PK }}
         LOCAL_USER_3_PK: ${{ secrets.LOCAL_USER_3_PK }}
-      options: --user 0:0
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Install dependencies
         shell: bash
         run: yarn --frozen-lockfile --no-progress --production false
@@ -36,6 +43,6 @@ jobs:
       - name: Install solc for crytic-compile
         shell: bash
         run: scripts/solc-select-install.sh
-      - name: Mythril analysis
+      - name: Slither analysis
         shell: bash
-        run: scripts/mythril-analyze.sh
+        run: scripts/slither-analyze.sh
