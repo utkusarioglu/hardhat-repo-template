@@ -49,7 +49,7 @@ const hardhatConfig = {
       accounts: hardhatAccounts(),
       tags: ["local"],
       forking: {
-        enabled: true,
+        enabled: process.env.FORKING_ENABLED === "true",
         url: `https://polygon-mumbai.g.alchemy.com/v2/${config.get(
           "apiKeys.alchemy.polygon.mumbai"
         )}`,
