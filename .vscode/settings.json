@@ -5,7 +5,7 @@
       "match": "\\.env(\\.\\w+)?$",
       "notMatch": "\\.example$",
       "isAsync": true,
-      "command": "scripts/create-env-example.sh"
+      "command": "/scripts/create-env-example.sh"
     },
     {
       "match": "\\.env$",
