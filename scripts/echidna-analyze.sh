@@ -1,56 +1,51 @@
 #!/bin/bash
 
 source /opt/venv/slither/bin/activate
+source ${0%/*}/analysis-common.sh
 scripts/solc-select-install.sh
 
-ANALYSIS_ARTIFACTS_FOLDER="./artifacts/echidna"
 FUZZ_CONTRACT_SUFFIX="fuzz.test.sol"
-ANALYSIS_LOG_SUFFIX="analysis.log"
+ANALYSIS_LOG_SUFFIX="echidna.log"
 
-tests_path=$(yarn -s hardhat config-value tests-path)
-sources_path=$(yarn -s hardhat config-value sources-path)
-current_date=$(date +%y%m%d-%H%M%S)
-contract_names=$(find $tests_path \
-  -name '*.fuzz.test.sol' \
-  -type f \
-  -exec sh -c "\
-    prefix_removed=\${0#\"$tests_path/\"}; \
-    suffix_removed=\${prefix_removed%\".$FUZZ_CONTRACT_SUFFIX\"}; \
-    echo \$suffix_removed; \
-  " {} \;)
+tests_path=$(get_tests_path)
+sources_path=$(get_sources_path)
+current_date=$(get_current_date_string)
 
-echo "Creating analysis artifacts folder: '$ANALYSIS_ARTIFACTS_FOLDER'…"
-mkdir -p "$ANALYSIS_ARTIFACTS_FOLDER"
+# echo "Creating analysis artifacts folder: '$ANALYSIS_ARTIFACTS_FOLDER'…"
+# mkdir -p "$ANALYSIS_ARTIFACTS_FOLDER"
+main() {
+  artifacts_folder=$(create_artifacts_subfolder "echidna")
+  echo "Created artifacts folder: '$artifacts_folder'…"
 
-for contract_name in $contract_names
-do
-  source_contract_path="$sources_path/$contract_name.sol"
-  fuzz_contract_name="${contract_name}Fuzz"
-  fuzz_contract_file="$contract_name.$FUZZ_CONTRACT_SUFFIX"
-  fuzz_contract_path="$tests_path/$fuzz_contract_file"
-  analysis_log_filename="$contract_name-$current_date.$ANALYSIS_LOG_SUFFIX"
-  analysis_log_path="$ANALYSIS_ARTIFACTS_FOLDER/$analysis_log_filename"
+  contract_names=$(get_contract_names)
+  echo "Found contracts: '$contract_names'"
 
-  if [ ! -f "$fuzz_contract_path" ];
-  then
-    echo "$fuzz_contract_path is not available, skipping"
-    continue 
-  fi
+  for contract_name in $contract_names
+  do
+    source_contract_path="$sources_path/$contract_name.sol"
+    fuzz_contract_name="${contract_name}Fuzz"
+    fuzz_contract_file="$contract_name.$FUZZ_CONTRACT_SUFFIX"
+    fuzz_contract_path="$tests_path/$fuzz_contract_file"
+    analysis_log_filename="$contract_name-$current_date.$ANALYSIS_LOG_SUFFIX"
+    analysis_log_path="$artifacts_folder/$analysis_log_filename"
 
-  if [ ! -f "$source_contract_path" ];
-  then
-    echo "$source_contract_path is not available, skipping"
-    continue 
-  fi
+    if [ ! -f "$fuzz_contract_path" ];
+    then
+      echo "$fuzz_contract_path is not available, skipping"
+      continue 
+    fi
 
-  echo "Testing: '$fuzz_contract_file'…"
-  echidna-test \
-    "$fuzz_contract_path" \
-    --contract "$fuzz_contract_name" \
-    --config echidna.config.yml \
-    --test-mode property \
-    | tee "$analysis_log_path"
+    echo "Testing: '$fuzz_contract_file'…"
+    echidna-test \
+      "$fuzz_contract_path" \
+      --contract "$fuzz_contract_name" \
+      --config echidna.config.yml \
+      --test-mode property \
+      | tee "$analysis_log_path"
 
-  echo "Log saved to '$analysis_log_path'"
-  echo "Complete: $fuzz_contract_file."
-done
+    echo "Analysis log is available at '$analysis_log_path'"
+    echo "Finished: $fuzz_contract_file."
+  done
+}
+
+main
