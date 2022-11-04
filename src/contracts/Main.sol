@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.7;
+pragma solidity 0.8.16;
+
+import "hardhat/console.sol";
 
 contract Main {
   string private greeting;
@@ -11,10 +13,12 @@ contract Main {
   }
 
   function getGreeting() public view returns (string memory) {
+    console.log("Sending greeting");
     return greeting;
   }
 
   function incrementCounter() public {
+    console.log("Incrementing counter");
     counter += 1;
   }
 
