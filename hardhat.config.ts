@@ -1,4 +1,5 @@
 require("dotenv").config();
+import { type HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
 import "hardhat-gas-reporter";
 import "@nomiclabs/hardhat-ethers";
@@ -24,8 +25,7 @@ import {
   namedAccounts,
 } from "_services/account.service";
 
-const hardhatConfig = {
-  solidity: "0.8.7",
+const hardhatConfig: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   paths: {
     sources: "src/contracts",
@@ -33,24 +33,26 @@ const hardhatConfig = {
     cache: "artifacts/cache",
     artifacts: "artifacts/hardhat",
     imports: "artifacts/imports",
-    deployments: "deployments",
-    deploy: "artifacts/deploy",
+    deployments: "artifacts/deployments",
+    deploy: "src/deployers",
     newStorageLayoutPath: "artifacts/storage-layout",
   },
-  settings: {
-    optimizer: {
-      enabled: true,
-      runs: 200,
+  solidity: {
+    version: "0.8.16",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
     },
   },
-
   networks: {
     hardhat: {
       saveDeployments: true,
       accounts: hardhatAccounts(),
       tags: ["local"],
       forking: {
-        enabled: config.get("features.forking"),
+        enabled: config.get<boolean>("features.forking"),
         url: `https://polygon-mumbai.g.alchemy.com/v2/${config.get(
           "apiKeys.alchemy.polygon.mumbai"
         )}`,
@@ -58,14 +60,14 @@ const hardhatConfig = {
     },
 
     geth1: {
-      url: config.get("geth.instance1"),
+      url: config.get<string>("geth.instance1"),
       chainId: 8545,
       accounts: gethAccounts(),
       tags: ["local"],
     },
 
     geth2: {
-      url: config.get("geth.instance2"),
+      url: config.get<string>("geth.instance2"),
       chainId: 9545,
       accounts: gethAccounts(),
       tags: ["local"],
@@ -73,12 +75,14 @@ const hardhatConfig = {
 
     ...(config.has("accounts.goerli") && {
       goerli: {
-        url: `https://goerli.infura.io/v3/${config.get("apiKeys.infura")}`,
+        url: `https://goerli.infura.io/v3/${config.get<string>(
+          "apiKeys.infura"
+        )}`,
         accounts: goerliAccounts(),
       },
 
       mumbai: {
-        url: `https://polygon-mumbai.g.alchemy.com/v2/${config.get(
+        url: `https://polygon-mumbai.g.alchemy.com/v2/${config.get<string>(
           "apiKeys.alchemy"
         )}`,
         accounts: mumbaiAccounts(),
@@ -97,15 +101,18 @@ const hardhatConfig = {
     overwrite: true,
     runOnCompile: true,
   },
-  etherscan: {
-    apiKey: config.get("apiKeys.etherscan"),
-  },
+
+  ...(config.has("apiKeys.etherscan") && {
+    etherscan: {
+      apiKey: config.get<string>("apiKeys.etherscan"),
+    },
+  }),
 
   ...(config.has("apiKeys.coinMarketCap") && {
     gasReporter: {
       token: config.get<string>("features.gasReporter.token"),
       enabled: config.get<boolean>("features.gasReporter.enabled"),
-      coinmarketcap: config.get("apiKeys.coinMarketCap"),
+      coinmarketcap: config.get<string>("apiKeys.coinMarketCap"),
       currency: "USD",
     },
   }),
