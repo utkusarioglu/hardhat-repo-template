@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source /opt/venv/mythril/bin/activate
+scripts/solc-select-install.sh
 
 # Goes through the contracts in `src/contracts` uses `solc.json` at repo 
 # root for remappings needed for `crytic-compile` to do its thing
