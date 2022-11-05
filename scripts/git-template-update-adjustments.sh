@@ -31,7 +31,6 @@ do_adjustments() {
     echo "Warn: Skipping '$phrase' as something went wrong."
     continue
   fi
-  replacement=$repo_path
   echo "Replacing '$current' with '$replacement'…"
   find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
     -exec sed -i "s:$current:$replacement:g" {} \;
