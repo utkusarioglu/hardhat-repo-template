@@ -23,19 +23,24 @@ repo_path=$4
 record_target=$5
 template_auto_reject=$6
 
-echo "Starting template adjustments…"
-
-for phrase in name workspaceFolder service; do
+do_adjustments() {
+  phrase=$1
+  replacement=$2
   current=$(cat .devcontainer/devcontainer.json | jq -r ".$phrase")
   if [ $? != 0 ]; then
-    echo "Warn: Skipping '$phrase'. Something went wrong."
+    echo "Warn: Skipping '$phrase' as something went wrong."
     continue
   fi
   replacement=$repo_path
   echo "Replacing '$current' with '$replacement'…"
   find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
     -exec sed -i "s:$current:$replacement:g" {} \;
-done
+}
+
+echo "Starting template adjustments…"
+do_adjustments name $repo_class
+do_adjustments workspaceFolder $repo_path
+do_adjustments service $repo_service
 
 git_template_repo_url_update $record_target $template_repo_url
 
