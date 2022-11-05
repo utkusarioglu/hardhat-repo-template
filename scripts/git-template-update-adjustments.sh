@@ -23,20 +23,19 @@ repo_path=$4
 record_target=$5
 template_auto_reject=$6
 
-current=$(cat .devcontainer/devcontainer.json | jq -r '.name')
-replacement=$repo_class
-find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
-  -exec sed -i "s:$current:$replacement:g" {} \;
+echo "Starting template adjustments…"
 
-current=$(cat .devcontainer/devcontainer.json | jq -r '.workspaceFolder')
-replacement=$repo_path
-find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
-  -exec sed -i "s:$current:$replacement:g" {} \;
-
-current=$(cat .devcontainer/devcontainer.json | jq -r '.service')
-replacement=$repo_service
-find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
-  -exec sed -i "s:$current:$replacement:g" {} \;
+for phrase in name workspaceFolder service; do
+  current=$(cat .devcontainer/devcontainer.json | jq -r ".$phrase")
+  if [ $? != 0 ]; then
+    echo "Warn: Skipping '$phrase'. Something went wrong."
+    continue
+  fi
+  replacement=$repo_path
+  echo "Replacing '$current' with '$replacement'…"
+  find . -type f \( ! -iwholename "./scripts/setup.sh" ! -iname ".git" \) \
+    -exec sed -i "s:$current:$replacement:g" {} \;
+done
 
 git_template_repo_url_update $record_target $template_repo_url
 
