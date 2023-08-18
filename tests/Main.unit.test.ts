@@ -1,4 +1,4 @@
-import { type SignerWithAddress } from "@nomiclabs/hardhat-ethers/signers";
+import { type SignerWithAddress } from "@nomicfoundation/hardhat-ethers/signers";
 import { type Main } from "_typechain/Main";
 import { beforeEachFacade, expect, testAccounts } from "_services/test.service";
 
