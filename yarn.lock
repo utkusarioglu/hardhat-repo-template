@@ -869,6 +869,19 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@nomicfoundation/hardhat-ethers@npm:^3.0.4":
+  version: 3.0.4
+  resolution: "@nomicfoundation/hardhat-ethers@npm:3.0.4"
+  dependencies:
+    debug: ^4.1.1
+    lodash.isequal: ^4.5.0
+  peerDependencies:
+    ethers: ^6.1.0
+    hardhat: ^2.0.0
+  checksum: 57cbb13682cf0e14cf5bb17b47a2004f69765358fffba7d660ab277a6aff38583216637aa3c5c68410a649a9cd41f774a8df2cb89098f6f616f6108c0f6e5d7a
+  languageName: node
+  linkType: hard
+
 "@nomicfoundation/solidity-analyzer-darwin-arm64@npm:0.1.1":
   version: 0.1.1
   resolution: "@nomicfoundation/solidity-analyzer-darwin-arm64@npm:0.1.1"
@@ -975,16 +988,6 @@ __metadata:
     "@nomicfoundation/solidity-analyzer-win32-x64-msvc":
       optional: true
   checksum: 038cffafd5769e25256b5b8bef88d95cc1c021274a65c020cf84aceb3237752a3b51645fdb0687f5516a2bdfebf166fcf50b08ab64857925100213e0654b266b
-  languageName: node
-  linkType: hard
-
-"@nomiclabs/hardhat-ethers@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "@nomiclabs/hardhat-ethers@npm:2.2.3"
-  peerDependencies:
-    ethers: ^5.0.0
-    hardhat: ^2.0.0
-  checksum: 72321317e55eb510306e04c42353c5f7ceb42d086fc76cc740120da6e1635b7ad5bbf23a8d6b02bd590754adcf646618933111624085ab249b1ff3482e773226
   languageName: node
   linkType: hard
 
@@ -3279,7 +3282,7 @@ __metadata:
   dependencies:
     "@chainlink/contracts": ^0.6.1
     "@nomicfoundation/hardhat-chai-matchers": ^2.0.2
-    "@nomiclabs/hardhat-ethers": ^2.2.3
+    "@nomicfoundation/hardhat-ethers": ^3.0.4
     "@nomiclabs/hardhat-etherscan": ^3.1.7
     "@openzeppelin/contracts": ^4.9.3
     "@openzeppelin/hardhat-upgrades": ^2.2.0
@@ -5158,6 +5161,13 @@ __metadata:
   version: 4.3.0
   resolution: "lodash.camelcase@npm:4.3.0"
   checksum: cb9227612f71b83e42de93eccf1232feeb25e705bdb19ba26c04f91e885bfd3dd5c517c4a97137658190581d3493ea3973072ca010aab7e301046d90740393d1
+  languageName: node
+  linkType: hard
+
+"lodash.isequal@npm:^4.5.0":
+  version: 4.5.0
+  resolution: "lodash.isequal@npm:4.5.0"
+  checksum: da27515dc5230eb1140ba65ff8de3613649620e8656b19a6270afe4866b7bd461d9ba2ac8a48dcc57f7adac4ee80e1de9f965d89d4d81a0ad52bb3eec2609644
   languageName: node
   linkType: hard
 
