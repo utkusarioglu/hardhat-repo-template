@@ -1,20 +1,23 @@
 require("dotenv").config();
 import { type HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
-import "hardhat-gas-reporter";
+// TODO this one breaks tests while using with ethers v6
+// import "hardhat-gas-reporter";
 import "@nomiclabs/hardhat-ethers";
-import "@nomiclabs/hardhat-waffle";
 import "hardhat-spdx-license-identifier";
+import "@nomicfoundation/hardhat-chai-matchers";
 import "solidity-coverage";
-import "@openzeppelin/hardhat-upgrades";
+// TODO causes issues with ethers v6
+// import "@openzeppelin/hardhat-upgrades";
 import "_tasks/account-balances.task";
 import "_tasks/named-accounts.task";
 import "_tasks/config-value.task";
-import "hardhat-storage-layout";
-// import "@nomiclabs/hardhat-etherscan";
+// TODO This one is disabled because it keeps logging an object to the console
+// import "hardhat-storage-layout";
+import "@nomiclabs/hardhat-etherscan";
 import "hardhat-deploy";
 import "@typechain/hardhat";
-import "@typechain/ethers-v5";
+import "@typechain/ethers-v6";
 import "hardhat-tracer";
 import { removeConsoleLog } from "hardhat-preprocessor";
 import config from "config";
@@ -26,6 +29,12 @@ import {
   namedAccounts,
 } from "_services/account.service";
 
+/**
+ * @dev
+ * #1 Storage layout is disabled unless it's needed. This is because
+ * the library is very verbose on the console, to the point that it
+ * hurts dx.
+ */
 const hardhatConfig: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   paths: {
@@ -36,10 +45,11 @@ const hardhatConfig: HardhatUserConfig = {
     imports: "artifacts/imports",
     deployments: "artifacts/deployments",
     deploy: "src/deployers",
+    // @ts-ignore #1
     newStorageLayoutPath: "artifacts/storage-layout",
   },
   solidity: {
-    version: "0.8.16",
+    version: "0.8.18",
     settings: {
       optimizer: {
         enabled: true,
@@ -52,6 +62,7 @@ const hardhatConfig: HardhatUserConfig = {
       saveDeployments: true,
       accounts: hardhatAccounts(),
       tags: ["local"],
+      chainId: 8545,
       forking: {
         enabled: config.get<boolean>("features.forking"),
         url: `https://polygon-mumbai.g.alchemy.com/v2/${config.get(
@@ -95,7 +106,7 @@ const hardhatConfig: HardhatUserConfig = {
 
   typechain: {
     outDir: "./artifacts/typechain",
-    target: "ethers-v5",
+    target: "ethers-v6",
     alwaysGenerateOverloads: false,
   },
   spdxLicenseIdentifier: {
@@ -116,7 +127,9 @@ const hardhatConfig: HardhatUserConfig = {
 
   ...(config.has("apiKeys.coinMarketCap") && {
     gasReporter: {
-      outputFile: `artifacts/gas-reporter/gas-usage.${Math.floor(Date.now()/1e3)}.log`,
+      outputFile: `artifacts/gas-reporter/gas-usage.${Math.floor(
+        Date.now() / 1e3
+      )}.log`,
       token: config.get<string>("features.gasReporter.token"),
       enabled: config.get<boolean>("features.gasReporter.enabled"),
       noColors: true,
